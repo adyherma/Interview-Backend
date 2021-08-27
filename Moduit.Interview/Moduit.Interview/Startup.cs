@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Moduit.Interview.Services;
 
 namespace Moduit.Interview
 {
@@ -28,6 +29,7 @@ namespace Moduit.Interview
         {
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Moduit.Interview", Version = "v1"}); });
+            RegisterServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +49,11 @@ namespace Moduit.Interview
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddScoped<IHttpClientService, HttpClientService>();
         }
     }
 }
